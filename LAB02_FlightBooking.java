@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class LAB02_FlightBooking{
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int t = Integer.parseInt(scanner.nextLine());
@@ -19,6 +19,7 @@ public class Main {
                         break;
                     case "Cancel":
                         FlightBooking.Cancel();
+                        break;
                     default:
                         FlightBooking.Confirmed(id);
                         break;
