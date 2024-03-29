@@ -24,6 +24,7 @@ class Point{
     public double slope(Point other){
         if(other.y == this.y || other.x == this.x) return -1;
         double res = (double)(other.y - this.y)/(other.x - this.x);
+        if(res == -0.0) res = 0.0;
         return res;
     }
 }
