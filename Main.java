@@ -1,15 +1,10 @@
-import java.util.Scanner;
+
 public class Main{
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        for(int i = 0;i <= n;i++){
-            double x = sc.nextDouble();
-            double y = sc.nextDouble();
-            int result = quadrant(x,y);
-            System.out.println(result);
-        }
-        sc.close();
+        Double double1 = 10.89;
+        int t = double1.intValue();
+        System.out.println(t);
+        
 	}
     static int quadrant(double x,double y){
         if(x == 0 || y == 0){
