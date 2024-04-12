@@ -19,7 +19,7 @@ class HanhTinh{
         return this.trongLucBeMat()/TraiDat.G_TraiDat*this.khoiLuongVat;
     }
     public String toString(){
-        return "Your weight on " + this.name +  " is " + String.format(".2f", this.khoiLuongBemat());
+        return "Your weight on " + this.name +  " is " + String.format("%.2f", this.khoiLuongBemat());
     }
         
 }
