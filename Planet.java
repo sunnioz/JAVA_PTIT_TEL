@@ -1,7 +1,4 @@
-package JAVA_PTIT_TEL;
-
 import java.util.Scanner;
-import java.util.function.DoubleUnaryOperator;
 
 class HanhTinh{
     String name;
