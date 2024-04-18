@@ -1,110 +1,110 @@
-import java.util.*;
+import java.util.ArrayList;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+class T{
+    public static String formatString(double x){
+        return String.format("%.2f", x);
+    }
+}
 
 class Item{
     private String name;
     private double price;
     private double discount;
-    
     Item(String name, double price, double discount){
         this.name = name;
         this.price = price;
         this.discount = discount;
     }
-    public double getPrice(){
-        return this.price;
+    double getPrice(){
+        return price;
     }
-    public double getDiscount(){
-        return this.discount;
+    double getDiscount(){
+        return discount;
     }
     public String toString(){
-        return this.name + " $" + String.format("%.2f",this.price) + " (-$" + String.format("%.2f",this.discount) + ")";
+        return this.name + " $" + T.formatString(this.price) + " (-$" + T.formatString(this.discount) + ")";
     }
 }
 
 class Employee{
     private String name;
-    public String getName(){
-        return this.name;
-    }
     Employee(String name){
         this.name = name;
+    }
+    public String getName(){
+        return name;
     }
 }
 
 class GroceryBill{
     private Employee clerk;
-    protected ArrayList<Item> receipt = new ArrayList<>();
-    protected double total = 0;
-    protected double sub_total = 0;
-    protected double discount = 0;
+    ArrayList<Item> items = new ArrayList<Item>();
+    private  double total;
     GroceryBill(Employee clerk){
         this.clerk = clerk;
     }
-    public void add(Item i){
-        this.receipt.add(i);
-        this.sub_total = this.sub_total + i.getPrice();
-        this.discount = this.discount + i.getDiscount();
-        this.total = this.total + i.getPrice() - i.getDiscount();
+    void add(Item i){
+        total+=i.getPrice();
+        items.add(i);
     }
-    public double getTotal(){
-        return this.total;
+    double getTotal(){
+        return total;
     }
-    public Employee getEmployee(){
-        return this.clerk;
+    Employee getClerk(){
+        return clerk;
     }
     public String toString(){
-        String display = "";
-        display = display + "items:\n";
-        for(Item i : this.receipt){
-            display = display +"   "+ i.toString() + "\n";
+        String s = "";
+        s += "items:\n";
+        for(Item i : items){
+            s += "   "+i.toString()+"\n";
         }
-        display = display + "total: $" + String.format("%.2f",this.getTotal()) + "\n";
-        display = display + "Clerk: " + this.getEmployee().getName();
-        return display;
+        s = s + "total: $"+T.formatString(this.total)+"\n";
+        s = s + "Clerk: "+clerk.getName()+"\n";
+        return s;
     }
 }
-
 class DiscountBill extends GroceryBill{
-//    private double discountAmount;
+    double discountAmount;
     DiscountBill(Employee clerk){
         super(clerk);
     }
-    public void add(Item i){
+    void add(Item i){
         super.add(i);
+        discountAmount += i.getDiscount();
     }
     public String toString(){
-        String display = "";
-        display = display + "items:\n";
-        for(Item i : this.receipt){
-            display = display +"   "+ i.toString() + "\n";
+        String s = "";
+        s += "items:\n";
+        for(Item i : items){
+            s += "   "+i.toString()+"\n";
         }
-        display = display + "sub-total: $"+String.format("%.2f", this.sub_total)+"\n";
-        display = display + "discount: $" +String.format("%.2f",this.discount)+ "\n";
-        display = display + "total: $" + String.format("%.2f",this.getTotal()) + "\n";
-        display = display + "Clerk: " + this.getEmployee().getName();
-        return display;
+        s = s + "sub-total: $"+ T.formatString(super.getTotal()) +"\n";
+        s = s + "discount: $"+ T.formatString(discountAmount) +"\n";
+        s = s + "total: $"+T.formatString(super.getTotal() - discountAmount)+"\n";
+        s = s + "Clerk: "+super.getClerk().getName()+"\n";
+        return s;
     }
-
 }
-
 public class INHERTANCE003 {
-    public static void main(String[] args)  {
-        Item item1 = new Item("item 1", 2.3, 0);
-        Item item2 = new Item("item 2", 3.45, 0);
-        Item item3 = new Item("item 3", 20, 15);
-        Item item4 = new Item("item 4", 40, 35);
-        Item item5 = new Item("item 5", 50, 35);
-        Employee employee1 = new Employee("Grocery Bill");
-        Employee employee2 = new Employee("Discount Bill");
-        GroceryBill groceryBill = new GroceryBill(employee1);
-        groceryBill.add(item1);
-        groceryBill.add(item2);
-        DiscountBill discountBill = new DiscountBill(employee2);
+    public static void main(String[] args) {
+        Employee clerk1 = new Employee("Grocery Bill");
+        Employee clerk2 = new Employee("Discount Bill");
+        Item item1 = new Item("item 1",2.3,0);
+        Item item2 = new Item("item 2",3.45,0);
+        Item item3 = new Item("item 3",20,15);
+        Item item4 = new Item("item 4",40,35);
+        Item item5 = new Item("item 5",50,55);
+        GroceryBill bill = new GroceryBill(clerk1);
+        bill.add(item1);
+        bill.add(item2);
+        System.out.println(bill.toString());
+        DiscountBill discountBill = new DiscountBill(clerk2);
         discountBill.add(item3);
         discountBill.add(item4);
         discountBill.add(item5);
-        System.out.println(groceryBill);
-        System.err.println();
-        System.out.print(discountBill);
+        System.out.print(discountBill.toString());
     }
 }
