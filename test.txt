@@ -1,0 +1,102 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.*;
+
+
+
+public class Attachonthewall {
+
+    public static int v,res,e_i,e_j;
+    public static int[] w;
+    public static int[][] a;
+    public static boolean[] visited;
+
+    public static void print(){
+        for(int i = 0; i < v; i++){
+            for(int j = 0; j < v; j++){
+                System.out.print(a[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void reset(){
+        for(int i = 0; i < v; i++){
+            visited[i] = false;
+        }
+    }
+
+    public static void dfs(int st, int i, int min_tmp, int cnt){
+        System.out.println("st: " + st + " i: " + i + " min_tmp: " + min_tmp);
+        visited[i] = true;
+        if(a[i][st] != 0 && cnt > 2){
+            System.out.println(i +" " + st);
+            res += Math.min(a[i][st],min_tmp);
+            a[e_i][e_j] = 0;
+            a[e_j][e_i] = 0;
+        }
+
+        for(int j = 0; j <v; j++){
+            if(a[i][j] != 0 && !visited[j]){
+                if(a[i][j] < min_tmp){
+                    min_tmp = a[i][j];
+                    e_i = i;
+                    e_j = j;
+                }
+                dfs(st,j,min_tmp,cnt +1);
+            }
+        }
+
+    }
+    public static void main(String[] args) throws Exception {
+        InputStream in = new FileInputStream("input.txt");
+        Scanner sc = new Scanner(in);
+        int T = sc.nextInt();
+        for(int tc = 1; tc <= T; tc ++){
+            v = sc.nextInt();
+            w = new int[v];
+            a = new int[v][v];
+            visited = new boolean[v];
+            res = 0;
+
+
+            for(int i = 0; i < v; i++){
+
+                int v_t = sc.nextInt();
+                int lk_t;
+                w[v_t] = sc.nextInt();
+                lk_t = sc.nextInt();
+                for(int j = 0; j < lk_t; j++){
+                    int v_lk = sc.nextInt();
+                        a[v_t][v_lk] = 1;
+                }
+
+            }
+
+            for(int i = 0; i < v; i++){
+                for(int j = 0; j < v; j++){
+                    if(a[i][j] == 1){
+                        a[i][j] = w[j] + w[i];
+                    }
+                }
+            }
+
+            print();
+
+            // dfs(1,4,Integer.MAX_VALUE);
+            // System.out.println(res);
+
+            for(int i = 0; i < v; i++){
+                reset();
+                dfs(i,i,Integer.MAX_VALUE,0);
+                System.out.println(res + " " + e_i + " " + e_j);
+                System.out.println("_______");
+                print();
+                System.out.println("_______");
+
+            }
+            System.out.println("#" + tc + " " + res);
+
+        }
+    }
+}
